@@ -2,7 +2,6 @@ getCSS.onclick = () => {
   const request = new XMLHttpRequest();
   request.open("GET", "/style.css"); //readyState = 1
   request.onreadystatechange = () => {
-    console.log(request.readyState);
     //下载完成，但不知道是成功(2xx) 还是失败（4xx 5xx）
     if (request.readyState === 4) {
       if (request.status >= 200 && request.status < 300) {
@@ -23,30 +22,40 @@ getCSS.onclick = () => {
 getJS.onclick = () => {
   const request = new XMLHttpRequest();
   request.open("GET", "/2.js");
-  request.onload = () => {
-    //创建 script 标签
-    const script = document.createElement("script");
-    //填写 script 内容
-    script.innerHTML = request.response;
-    //插入到 body 里面
-    document.body.appendChild(script);
+  request.onreadystatechange = () => {
+    if (request.readyState === 4) {
+      if (request.status >= 200 && request.status < 300) {
+        //创建 script 标签
+        const script = document.createElement("script");
+        //填写 script 内容
+        script.innerHTML = request.response;
+        //插入到 body 里面
+        document.body.appendChild(script);
+      } else {
+        alert("加载 JS 失败");
+      }
+    }
   };
-  request.onerror = () => {};
   request.send();
 };
 
 getHTML.onclick = () => {
   const request = new XMLHttpRequest();
   request.open("GET", "/3.html");
-  request.onload = () => {
-    //创建 div 标签
-    const div = document.createElement("div");
-    //填写 div 内容
-    div.innerHTML = request.response;
-    //插入到 body 里面
-    document.body.appendChild(div);
+  request.onreadystatechange = () => {
+    if (request.readyState === 4) {
+      if (request.status >= 200 && request.status < 300) {
+        //创建 div 标签
+        const div = document.createElement("div");
+        //填写 div 内容
+        div.innerHTML = request.response;
+        //插入到 body 里面
+        document.body.appendChild(div);
+      } else {
+        alert("加载 HTML 失败");
+      }
+    }
   };
-  request.onerror = () => {};
   request.send();
 };
 
@@ -71,7 +80,7 @@ getJSON.onclick = () => {
   const request = new XMLHttpRequest();
   request.open("GET", "/5.json");
   request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
+    if (request.readyState === 4 && request.status >= 200 && request.status < 300) {
       console.log(request.response);
       const object = JSON.parse(request.response); //字符串转换为对象
       console.log(object);
