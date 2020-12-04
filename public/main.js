@@ -80,7 +80,11 @@ getJSON.onclick = () => {
   const request = new XMLHttpRequest();
   request.open("GET", "/5.json");
   request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status >= 200 && request.status < 300) {
+    if (
+      request.readyState === 4 &&
+      request.status >= 200 &&
+      request.status < 300
+    ) {
       console.log(request.response);
       const object = JSON.parse(request.response); //字符串转换为对象
       console.log(object);
